@@ -2,25 +2,27 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Jurnal Cinta Abadi Adila</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&family=Great+Vibes&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --pink-soft: #ffc0cb;
             --pink-deep: #ff69b4;
             --pink-light: #fff0f3;
             --romantic-red: #e91e63;
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.5);
+            --glass-bg: rgba(255, 255, 255, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --accent-purple: #9c27b0;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Quicksand', 'Poppins', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -31,41 +33,74 @@
             position: relative;
         }
 
-        /* Background Canvas untuk Efek Cahaya Canggih */
+        /* Background Canvas */
         #bg-canvas {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: linear-gradient(to bottom, #fff5f7, #ffe4e8, #ffdae0);
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -2;
+            background: linear-gradient(180deg, #fff5f7 0%, #ffe4e8 50%, #ffdae0 100%);
         }
 
-        /* Splash Screen yang Lebih Indah */
+        /* Karakter Animasi Beruang Imut */
+        .character-container {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 120px;
+            height: 120px;
+            z-index: 100;
+            pointer-events: none;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
+        }
+
+        @media (max-width: 600px) {
+            .character-container { width: 80px; height: 80px; bottom: 10px; left: 10px; }
+        }
+
+        /* Splash Screen Premium */
         #splash-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: #fff;
+            background: radial-gradient(circle, #fff 0%, #fff0f3 100%);
             z-index: 10000;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
+
+        .splash-heart-group {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .splash-heart {
-            font-size: 150px;
+            font-size: 100px;
             color: var(--pink-deep);
-            animation: heartPulse 2s infinite ease-in-out;
-            filter: drop-shadow(0 0 20px var(--pink-soft));
+            animation: heartPulse 1.5s infinite ease-in-out;
+            z-index: 2;
+        }
+
+        .heart-sparkle {
+            position: absolute;
+            font-size: 30px;
+            animation: sparkle 2s infinite;
+            opacity: 0;
         }
 
         @keyframes heartPulse {
-            0% { transform: scale(1); filter: brightness(1); }
-            50% { transform: scale(1.15); filter: brightness(1.2); }
-            100% { transform: scale(1); filter: brightness(1); }
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--pink-soft)); }
+            50% { transform: scale(1.2); filter: drop-shadow(0 0 30px var(--pink-deep)); }
+        }
+
+        @keyframes sparkle {
+            0% { transform: translate(0,0) scale(0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(1.2); opacity: 0; }
         }
 
         /* Falling Elements */
@@ -81,92 +116,103 @@
             to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
         }
 
-        /* Header Modern */
+        /* Header Layout */
         header {
             text-align: center;
-            padding: 100px 20px;
+            padding: 80px 20px 40px;
             position: relative;
         }
 
         .love-text {
             font-family: 'Great Vibes', cursive;
-            font-size: clamp(3rem, 12vw, 5.5rem);
+            font-size: clamp(2.8rem, 10vw, 5rem);
             color: var(--romantic-red);
-            text-shadow: 0 10px 20px rgba(233, 30, 99, 0.2);
+            text-shadow: 0 5px 15px rgba(233, 30, 99, 0.2);
             animation: float 4s infinite ease-in-out;
+            margin-bottom: 10px;
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
+            0%, 100% { transform: translateY(0) rotate(-1deg); }
+            50% { transform: translateY(-15px) rotate(1deg); }
         }
 
-        /* Container & Glassmorphism */
+        /* Container & Grid */
         .container {
-            max-width: 900px;
+            max-width: 800px;
             margin: 0 auto;
-            padding: 0 20px 60px 20px;
+            padding: 0 15px 100px;
             position: relative;
         }
 
         .glass-panel {
             background: var(--glass-bg);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid var(--glass-border);
-            border-radius: 40px;
-            box-shadow: 0 25px 50px rgba(255, 105, 180, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 2px solid var(--glass-border);
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(255, 105, 180, 0.12);
+            overflow: hidden;
+            transition: 0.3s ease;
         }
 
         /* Input Section */
         .input-section {
-            padding: 30px;
-            margin-bottom: 40px;
+            padding: 20px;
+            margin-bottom: 30px;
             display: flex;
-            gap: 15px;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        @media (min-width: 600px) {
+            .input-section { flex-direction: row; padding: 25px; }
         }
 
         .input-section input {
             flex: 1;
-            border: none;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 18px 25px;
-            border-radius: 20px;
+            border: 2px solid transparent;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px 20px;
+            border-radius: 18px;
             outline: none;
-            font-size: 1.1rem;
-            box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
+            font-size: 1rem;
             transition: 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
         }
 
-        .input-section input:focus { background: white; box-shadow: 0 0 15px rgba(255, 105, 180, 0.2); }
+        .input-section input:focus { 
+            border-color: var(--pink-soft);
+            background: white; 
+            box-shadow: 0 0 15px rgba(255, 105, 180, 0.15); 
+        }
 
         .btn-add {
             background: linear-gradient(45deg, var(--pink-deep), var(--romantic-red));
             color: white;
             border: none;
-            padding: 0 30px;
-            border-radius: 20px;
+            padding: 15px 25px;
+            border-radius: 18px;
             cursor: pointer;
-            font-weight: 600;
-            transition: 0.4s;
+            font-weight: 700;
+            transition: 0.3s;
+            font-size: 1rem;
         }
 
-        .btn-add:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(233, 30, 99, 0.3); }
+        .btn-add:active { transform: scale(0.95); }
 
         /* Card Styles */
         .day-card {
-            margin-bottom: 50px;
-            padding: 40px;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-bottom: 30px;
+            padding: 25px;
+            position: relative;
         }
-
-        .day-card:hover { transform: translateY(-10px); }
 
         .day-title {
             color: var(--romantic-red);
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             font-family: 'Great Vibes', cursive;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -175,360 +221,342 @@
         .routine-item {
             display: flex;
             align-items: center;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.5);
-            margin-bottom: 15px;
-            border-radius: 25px;
-            gap: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.6);
+            margin-bottom: 12px;
+            border-radius: 20px;
+            gap: 15px;
             transition: 0.3s ease;
-            border: 1px solid transparent;
-        }
-
-        .routine-item:hover { 
-            background: white; 
-            border-color: var(--pink-soft);
-            box-shadow: 0 10px 25px rgba(255, 182, 193, 0.2);
         }
 
         .checkbox {
-            width: 35px; height: 35px;
-            border: 3px solid var(--pink-deep);
-            border-radius: 12px;
+            width: 30px; height: 30px;
+            border: 2.5px solid var(--pink-deep);
+            border-radius: 10px;
             cursor: pointer;
             display: flex; align-items: center; justify-content: center;
             color: white; transition: 0.3s;
             flex-shrink: 0;
             background: white;
+            font-size: 14px;
         }
 
-        .checkbox.checked { background: var(--pink-deep); box-shadow: 0 0 15px var(--pink-soft); }
-        .checkbox.disabled { opacity: 0.3; cursor: not-allowed; border-color: #ddd; }
+        .checkbox.checked { background: var(--pink-deep); }
+        .checkbox.disabled { opacity: 0.3; cursor: not-allowed; }
+
+        .task-text {
+            font-size: 0.95rem;
+            line-height: 1.4;
+            color: #555;
+            flex: 1;
+        }
 
         .btn-delete {
-            margin-left: auto;
             color: #ffcdd2;
             cursor: pointer;
-            padding: 10px;
+            padding: 8px;
             transition: 0.3s;
         }
 
-        .btn-delete:hover { color: #f44336; transform: rotate(15deg) scale(1.3); }
+        .btn-delete:hover { color: var(--romantic-red); transform: scale(1.2); }
 
-        /* Motivation Table */
+        /* Motivation Section */
         .motivation-container {
-            margin-top: 80px;
-            overflow: hidden;
+            margin-top: 50px;
         }
 
         .motivation-header {
             background: linear-gradient(90deg, var(--romantic-red), var(--pink-deep));
             color: white;
-            padding: 30px;
+            padding: 20px;
             text-align: center;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-family: 'Great Vibes', cursive;
         }
 
         .motivation-row {
-            padding: 35px;
-            border-bottom: 1px solid rgba(255, 192, 203, 0.3);
-            text-align: center;
+            padding: 25px;
+            border-bottom: 1px solid rgba(255, 192, 203, 0.2);
             display: flex;
             flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            transition: 0.4s;
+            gap: 10px;
         }
-
-        .motivation-row:hover { background: rgba(255, 240, 243, 0.8); }
 
         .quote-text {
             font-style: italic;
-            font-size: 1.25rem;
-            color: #333;
-            line-height: 2;
-            font-weight: 300;
-        }
-
-        /* Footer Night */
-        .footer-night {
-            background: linear-gradient(to top, #0f0c29, #302b63, #24243e);
-            color: #fce4ec;
-            padding: 100px 20px;
+            font-size: 1.05rem;
+            color: #444;
+            line-height: 1.6;
             text-align: center;
-            border-radius: 80px 80px 0 0;
-            margin-top: 100px;
-            box-shadow: 0 -20px 40px rgba(0,0,0,0.2);
         }
 
-        .moon {
-            font-size: 60px;
-            margin-bottom: 30px;
-            display: inline-block;
-            filter: drop-shadow(0 0 20px #fff);
-            animation: moonSway 4s infinite ease-in-out;
+        .quote-author {
+            color: var(--romantic-red);
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-align: right;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        @keyframes moonSway {
-            0%, 100% { transform: rotate(-5deg); }
-            50% { transform: rotate(5deg); }
+        /* Footer */
+        .footer-night {
+            background: linear-gradient(to top, #1a1a2e, #16213e);
+            color: #fff;
+            padding: 80px 20px;
+            text-align: center;
+            border-radius: 50px 50px 0 0;
+            margin-top: 50px;
         }
+
+        .moon { font-size: 50px; animation: glow 3s infinite alternate; margin-bottom: 20px; display: block; }
+        @keyframes glow { from { filter: drop-shadow(0 0 5px #fff); } to { filter: drop-shadow(0 0 20px #fff); } }
 
         .badge-today {
-            background: linear-gradient(45deg, #ff1744, #e91e63);
+            background: var(--romantic-red);
             color: white;
-            font-size: 0.8rem;
-            padding: 6px 18px;
-            border-radius: 50px;
-            text-transform: uppercase;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
+            font-size: 0.7rem;
+            padding: 4px 12px;
+            border-radius: 20px;
         }
 
-        .flower-stamp {
-            position: absolute;
-            bottom: -30px;
-            right: -30px;
-            font-size: 80px;
-            opacity: 0.1;
-            transform: rotate(20deg);
+        /* Custom Modal Replacement for Alert */
+        #custom-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4);
+            z-index: 20000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 25px;
+            text-align: center;
+            max-width: 400px;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        .modal-btn {
+            background: var(--pink-deep);
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 15px;
+            margin-top: 20px;
+            cursor: pointer;
         }
 
     </style>
 </head>
 <body>
 
-    <!-- Canvas Background -->
     <canvas id="bg-canvas"></canvas>
 
-    <!-- Splash Screen -->
+    <!-- Animasi Karakter Beruang (Goyang Kaki) -->
+    <div class="character-container">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <!-- Body -->
+            <circle cx="100" cy="120" r="60" fill="#f8bbd0" />
+            <!-- Ears -->
+            <circle cx="50" cy="70" r="20" fill="#f8bbd0" />
+            <circle cx="150" cy="70" r="20" fill="#f8bbd0" />
+            <!-- Face Area -->
+            <circle cx="100" cy="125" r="45" fill="#fff" opacity="0.5" />
+            <!-- Eyes -->
+            <circle cx="80" cy="115" r="5" fill="#4a4a4a" />
+            <circle cx="120" cy="115" r="5" fill="#4a4a4a" />
+            <!-- Nose -->
+            <path d="M95 130 Q100 135 105 130" stroke="#4a4a4a" fill="none" stroke-width="3" />
+            <!-- Cheeks -->
+            <circle cx="65" cy="130" r="8" fill="#ff80ab" opacity="0.6" />
+            <circle cx="135" cy="130" r="8" fill="#ff80ab" opacity="0.6" />
+            <!-- Legs (Animated) -->
+            <g id="legs">
+                <rect x="70" y="170" width="20" height="15" rx="10" fill="#f06292">
+                    <animateTransform attributeName="transform" type="translate" values="0 0; 0 -10; 0 0" dur="1s" repeatCount="indefinite" />
+                </rect>
+                <rect x="110" y="170" width="20" height="15" rx="10" fill="#f06292">
+                    <animateTransform attributeName="transform" type="translate" values="0 0; 0 -10; 0 0" dur="1s" begin="0.5s" repeatCount="indefinite" />
+                </rect>
+            </g>
+        </svg>
+    </div>
+
+    <!-- Splash Screen Imut -->
     <div id="splash-overlay">
-        <div class="splash-heart">💖</div>
-        <h2 style="color: var(--romantic-red); margin-top: 40px; letter-spacing: 8px; font-family: 'Great Vibes'; font-size: 3.5rem;">Cinta Untuk Adila</h2>
-        <div style="width: 200px; height: 3px; background: #eee; margin-top: 20px; position: relative; overflow: hidden;">
-            <div style="position: absolute; width: 100%; height: 100%; background: var(--pink-deep); left: -100%; animation: load 2s forwards;"></div>
+        <div class="splash-heart-group">
+            <div class="splash-heart">💖</div>
+            <!-- Sparkles will be added by JS -->
+        </div>
+        <h2 style="color: var(--romantic-red); margin-top: 30px; font-family: 'Great Vibes'; font-size: 2.5rem;">Cinta Untuk Adila</h2>
+        <p style="font-size: 0.9rem; color: #aaa; margin-top: 10px;">Menyiapkan hal-hal indah...</p>
+        <div style="width: 150px; height: 6px; background: #eee; border-radius: 10px; margin-top: 25px; overflow: hidden;">
+            <div id="loading-bar" style="width: 0%; height: 100%; background: var(--pink-deep); transition: width 0.1s;"></div>
         </div>
     </div>
 
     <header>
         <h1 class="love-text" id="main-title">Love You Adila 🌸</h1>
-        <p style="color: #666; font-style: italic; font-size: 1.1rem; margin-top: 10px; opacity: 0.8;">"Karena setiap detak jantungku adalah namamu."</p>
+        <p style="color: #888; font-style: italic; font-size: 1rem;">"Setiap hari bersamamu adalah kado terindah."</p>
     </header>
 
     <div class="container">
         
         <!-- Input Section -->
         <div class="glass-panel input-section">
-            <input type="text" id="new-task-input" placeholder="Tuliskan rencanamu hari ini, Sayang...">
+            <input type="text" id="new-task-input" placeholder="Tulis rencanamu hari ini, Sayang...">
             <button class="btn-add" onclick="addNewTask()">Tambah ✨</button>
         </div>
 
         <!-- Routine List -->
-        <div id="routine-master-container">
-            <!-- Dinamis via JS -->
-        </div>
+        <div id="routine-master-container"></div>
 
-        <!-- Motivation Section -->
-        <div class="glass-panel motivation-container">
+        <!-- Motivation Section (Extended) -->
+        <div class="glass-panel motivation-container" id="motivation-box">
             <div class="motivation-header">✨ Bisikan Semangat Untukmu ✨</div>
-            
-            <div class="motivation-row">
-                <span class="quote-text">"Di matamu, aku menemukan semesta yang jauh lebih indah dari sekadar bintang-bintang di langit malam. Terima kasih telah menjadi pusat duniaku."</span>
-                <span style="color: var(--romantic-red); font-weight: 600;">— Abadi Dalam Hati</span>
-            </div>
-
-            <div class="motivation-row">
-                <span class="quote-text">"Terkadang dunia terasa berat, tapi ingatlah bahwa ada satu jiwa yang selalu memelukmu dalam setiap doanya. Kamu tak pernah sendiri, Sayang."</span>
-                <span style="color: var(--romantic-red); font-weight: 600;">— Pelukan Jiwamu</span>
-            </div>
-
-            <div class="motivation-row">
-                <span class="quote-text">"Setiap langkah kecil yang kamu ambil hari ini adalah tarian indah menuju impianmu. Teruslah berjalan, aku akan selalu ada di baris terdepan untuk memberimu tepuk tangan."</span>
-                <span style="color: var(--romantic-red); font-weight: 600;">— Penggemar Setiamu</span>
-            </div>
-
-            <div class="motivation-row">
-                <span class="quote-text">"Kamu adalah mahakarya Tuhan yang paling sempurna yang pernah aku temui. Jangan biarkan keraguan memadamkan cahaya yang ada di dalam dirimu."</span>
-                <span style="color: var(--romantic-red); font-weight: 600;">— Untuk Mahakaryaku</span>
-            </div>
+            <!-- Dinamis via JS -->
         </div>
 
     </div>
 
     <footer class="footer-night">
         <span class="moon">🌙</span>
-        <h2 style="font-family: 'Great Vibes'; font-size: 3.5rem; color: #fff; margin-bottom: 20px;">Selamat Tidur, Adila</h2>
-        <p style="max-width: 700px; margin: 0 auto; line-height: 2; font-size: 1.1rem; opacity: 0.9;">
-            Biarkan bintang-bintang berbisik lembut di telingamu, menceritakan betapa berharganya dirimu bagiku. 
-            Lepaskanlah semua lelahmu malam ini, karena esok pagi, aku akan kembali menjadi orang pertama 
-            yang mencintaimu dengan cara yang sama indahnya. Tidurlah dengan tenang, Sayangku. ❤️
+        <h2 style="font-family: 'Great Vibes'; font-size: 2.8rem; margin-bottom: 15px;">Mimpi Indah, Adila</h2>
+        <p style="padding: 0 20px; line-height: 1.8; font-size: 1rem; opacity: 0.85;">
+            Tutup matamu pelan-pelan. Ingatlah bahwa hari ini kamu sudah berusaha sangat hebat. 
+            Besok, aku akan tetap di sini, mencintaimu lebih dari hari ini. ❤️
         </p>
-        <div style="margin-top: 60px; font-size: 0.9rem; opacity: 0.4;">
-            Dibuat dengan segenap cinta & hanya untuk Adila tercantik ✨
+        <div style="margin-top: 50px; font-size: 0.8rem; opacity: 0.3;">
+            Dibuat dengan segenap rasa sayang untuk Adila ✨
         </div>
     </footer>
 
+    <!-- Custom Modal -->
+    <div id="custom-modal">
+        <div class="modal-content">
+            <h3 id="modal-title" style="color: var(--romantic-red); margin-bottom: 10px;"></h3>
+            <p id="modal-msg" style="color: #666;"></p>
+            <button class="modal-btn" onclick="closeModal()">Oke, Sayang! ❤️</button>
+        </div>
+    </div>
+
     <script>
-        // --- LOGIC ANIMASI CANVAS (TEKNOLOGI CANGGIH) ---
-        const canvas = document.getElementById('bg-canvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resize);
-        resize();
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 8 + 2;
-                this.speedX = Math.random() * 0.5 - 0.25;
-                this.speedY = Math.random() * 0.5 - 0.25;
-                this.opacity = Math.random() * 0.5 + 0.1;
-                this.color = `rgba(255, ${Math.random() * 100 + 150}, ${Math.random() * 100 + 150}, ${this.opacity})`;
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.x > canvas.width) this.x = 0;
-                if (this.x < 0) this.x = canvas.width;
-                if (this.y > canvas.height) this.y = 0;
-                if (this.y < 0) this.y = canvas.height;
-            }
-            draw() {
-                ctx.fillStyle = this.color;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        function initParticles() {
-            for (let i = 0; i < 60; i++) {
-                particles.push(new Particle());
-            }
-        }
-        initParticles();
-
-        function animateBg() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
-            requestAnimationFrame(animateBg);
-        }
-        animateBg();
-
-        // --- LOGIC JURNAL ---
+        // --- CONFIG & DATA ---
         const days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
         const todayIdx = new Date().getDay();
         const masterContainer = document.getElementById('routine-master-container');
-
-        function getWeekNumber(d) {
-            d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-            d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
-            var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-            return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-        }
-
-        const currentWeek = getWeekNumber(new Date());
-
-        const defaultRoutine = [
-            { task: "Bangun untuk Solat Subuh 🙏" },
-            { task: "Minum Air & Bantu Orang Tua 🏠" },
-            { task: "Pergi Ke Sekolah / Aktivitas 🎒" },
-            { task: "Balik Sekolah, Minum, Mandi 🚿" },
-            { task: "Lanjut Tidur Sebentar/Istirahat 😴" },
-            { task: "Bangun & Solat Maghrib ✨" },
-            { task: "Selesai Solat, Makan & Minum 🍲" }
+        const motivasiList = [
+            { t: "Di matamu, aku menemukan semesta yang jauh lebih indah dari sekadar bintang-bintang di langit malam.", a: "Pemuja Rahasiamu" },
+            { t: "Terkadang dunia terasa berat, tapi ingatlah ada satu jiwa yang selalu memelukmu dalam setiap doanya.", a: "Pelindung Hatimu" },
+            { t: "Kamu adalah mahakarya Tuhan yang paling sempurna. Jangan biarkan keraguan memadamkan cahayamu.", a: "Pengagum Setiamu" },
+            { t: "Lelahmu hari ini adalah tabungan bahagia untuk masa depan kita nanti. Semangat ya, Sayang!", a: "Masa Depanmu" },
+            { t: "Jangan lupa tersenyum, karena senyummu adalah alasan kenapa hariku terasa begitu cerah.", a: "Pecinta Senyummu" },
+            { t: "Apapun yang terjadi hari ini, kamu tetaplah pemenang di hatiku. Istirahatlah dengan bangga.", a: "Rumah Tempatmu Pulang" },
+            { t: "Aku mencintaimu bukan hanya karena siapa kamu, tapi karena siapa aku saat bersamamu.", a: "Belahan Jiwamu" },
+            { t: "Setiap langkah kecilmu hari ini adalah tarian indah menuju impianmu. Aku bangga padamu!", a: "Pendukung Nomor 1" }
         ];
 
-        window.onload = () => {
-            checkWeeklyReset();
-            setTimeout(() => {
-                const splash = document.getElementById('splash-overlay');
-                splash.style.opacity = '0';
-                setTimeout(() => splash.style.display = 'none', 1500);
-            }, 3000);
+        const defaultRoutine = [
+            { task: "Bangun & Solat Subuh 🙏" },
+            { task: "Minum Air & Bantu Mama/Papa 🏠" },
+            { task: "Persiapan & Berangkat Aktivitas 🎒" },
+            { task: "Fokus & Lakukan yang Terbaik! 💪" },
+            { task: "Istirahat & Makan Siang Tepat Waktu 🍱" },
+            { task: "Solat Maghrib & Refleksi Hari Ini ✨" },
+            { task: "Makan Malam & Me-time Cantik 🍰" }
+        ];
 
-            startFlowerRain();
+        // --- SPLASH & ANIMASI ---
+        window.onload = () => {
+            initSplash();
             renderAllDays();
+            renderMotivasi();
+            startFlowerRain();
+            animateBg();
         };
 
-        function checkWeeklyReset() {
-            const savedWeek = localStorage.getItem('last_saved_week_v2');
-            if (savedWeek && parseInt(savedWeek) !== currentWeek) {
-                days.forEach(day => {
-                    localStorage.removeItem(`list-${day}`);
-                    for (let i = 0; i < 50; i++) {
-                        localStorage.removeItem(`check-${day}-${i}`);
-                    }
-                });
+        function initSplash() {
+            const bar = document.getElementById('loading-bar');
+            const group = document.querySelector('.splash-heart-group');
+            let progress = 0;
+            
+            // Add sparkles
+            for(let i=0; i<10; i++) {
+                const s = document.createElement('div');
+                s.className = 'heart-sparkle';
+                s.innerHTML = ['✨','🌸','❤️'][i%3];
+                s.style.setProperty('--tx', (Math.random()*200 - 100) + 'px');
+                s.style.setProperty('--ty', (Math.random()*200 - 100) + 'px');
+                s.style.left = '40px';
+                s.style.animationDelay = (i * 0.2) + 's';
+                group.appendChild(s);
             }
-            localStorage.setItem('last_saved_week_v2', currentWeek);
+
+            const interval = setInterval(() => {
+                progress += Math.random() * 5;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        const splash = document.getElementById('splash-overlay');
+                        splash.style.opacity = '0';
+                        splash.style.transform = 'scale(1.2)';
+                        setTimeout(() => splash.remove(), 1200);
+                    }, 500);
+                }
+                bar.style.width = progress + '%';
+            }, 50);
         }
 
-        function startFlowerRain() {
-            const symbols = ['🌸', '❤️', '💖', '✨', '🌷', '🎀', '☁️'];
-            setInterval(() => {
-                const el = document.createElement('div');
-                el.className = 'falling-element';
-                el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
-                el.style.left = Math.random() * 100 + 'vw';
-                el.style.fontSize = (Math.random() * 20 + 20) + 'px';
-                el.style.animationDuration = (Math.random() * 3 + 5) + 's';
-                el.style.opacity = Math.random() * 0.7;
-                document.body.appendChild(el);
-                setTimeout(() => el.remove(), 8000);
-            }, 600);
-        }
-
+        // --- CORE LOGIC ---
         function renderAllDays() {
             masterContainer.innerHTML = '';
+            // Render 5 hari kerja
             for (let i = 1; i <= 5; i++) {
                 renderSingleDay(i);
             }
             renderWeekend();
         }
 
-        function renderSingleDay(dayIdx) {
-            const dayName = days[dayIdx];
-            const isToday = todayIdx === dayIdx;
-            let list = JSON.parse(localStorage.getItem(`list-${dayName}`)) || [...defaultRoutine];
+        function renderSingleDay(idx) {
+            const dayName = days[idx];
+            const isToday = todayIdx === idx;
+            let list = JSON.parse(localStorage.getItem(`list-v3-${dayName}`)) || [...defaultRoutine];
 
             const card = document.createElement('div');
             card.className = 'glass-panel day-card';
+            if(isToday) card.style.borderColor = 'var(--pink-deep)';
 
             let html = `
                 <div class="day-title">
-                    <span>🌸 Hari ${dayName}</span>
+                    <span>🌸 ${dayName}</span>
                     ${isToday ? '<span class="badge-today">Hari Ini</span>' : ''}
                 </div>
                 <div class="routine-list">
             `;
 
-            list.forEach((item, idx) => {
-                const checkKey = `check-${dayName}-${idx}`;
+            list.forEach((item, i) => {
+                const checkKey = `check-v3-${dayName}-${i}`;
                 const isChecked = localStorage.getItem(checkKey) === 'true';
 
                 html += `
-                    <div class="routine-item">
+                    <div class="routine-item" style="${isChecked ? 'opacity: 0.7;' : ''}">
                         <div class="checkbox ${isChecked ? 'checked' : ''} ${!isToday ? 'disabled' : ''}" 
-                             onclick="toggleTask('${dayName}', ${idx}, ${isToday})">
+                             onclick="toggleTask('${dayName}', ${i}, ${isToday})">
                             ${isChecked ? '✓' : ''}
                         </div>
-                        <span style="${isChecked ? 'text-decoration: line-through; color: #ccc;' : 'color: #555; font-weight: 400;'}">${item.task}</span>
-                        ${isToday ? `<i class="fas fa-trash-alt btn-delete" onclick="deleteTask('${dayName}', ${idx})"></i>` : ''}
+                        <span class="task-text" style="${isChecked ? 'text-decoration: line-through;' : ''}">${item.task}</span>
+                        ${isToday ? `<i class="fas fa-trash-alt btn-delete" onclick="deleteTask('${dayName}', ${i})"></i>` : ''}
                     </div>
                 `;
             });
 
-            html += `</div><span class="flower-stamp">🌺</span>`;
+            html += `</div>`;
             card.innerHTML = html;
             masterContainer.appendChild(card);
         }
@@ -536,26 +564,38 @@
         function renderWeekend() {
             const card = document.createElement('div');
             card.className = 'glass-panel day-card';
-            card.style.background = "linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,222,240,0.7) 100%)";
-            
+            card.style.background = "linear-gradient(135deg, #fff 0%, #fff0f3 100%)";
             card.innerHTML = `
-                <div class="day-title" style="justify-content: center;">✨ Weekend Spesial Adila ✨</div>
-                <div style="text-align: center; padding: 20px 0;">
-                    <p style="font-weight: 600; color: var(--romantic-red); font-size: 1.4rem; font-family: 'Great Vibes', cursive;">Waktunya Rehat & Dimanja! 👸</p>
-                    <p style="margin-top: 15px; font-style: italic; color: #777;">Simpan tugasmu, ambil napas dalam-dalam. Nikmati setiap detik hari liburmu dengan kebahagiaan yang tak terbatas.</p>
-                    <div style="font-size: 60px; margin-top: 30px; letter-spacing: 15px;">🧁🍓🎨🎞️🛀</div>
+                <div class="day-title" style="justify-content: center;">🌈 Weekend Healing Adila</div>
+                <div style="text-align: center; padding: 10px;">
+                    <p style="color: var(--romantic-red); font-size: 1.2rem; font-family: 'Great Vibes';">Waktunya Manjain Diri! 👸</p>
+                    <p style="font-size: 0.9rem; margin-top: 10px; color: #888;">Nonton film, maskeran, atau sekadar rebahan santai. Kamu berhak bahagia!</p>
+                    <div style="font-size: 35px; margin-top: 20px; letter-spacing: 10px;">🍓🍦🎨🎞️☁️</div>
                 </div>
-                <span class="flower-stamp">🌷</span>
             `;
             masterContainer.appendChild(card);
         }
 
-        window.toggleTask = (dayName, idx, isToday) => {
+        function renderMotivasi() {
+            const box = document.getElementById('motivation-box');
+            motivasiList.forEach(m => {
+                const row = document.createElement('div');
+                row.className = 'motivation-row';
+                row.innerHTML = `
+                    <span class="quote-text">"${m.t}"</span>
+                    <span class="quote-author">— ${m.a}</span>
+                `;
+                box.appendChild(row);
+            });
+        }
+
+        // --- ACTIONS ---
+        window.toggleTask = (day, i, isToday) => {
             if(!isToday) {
-                alert("Adila sayang, fokus ke hari ini dulu ya! Hari esok biar menjadi kejutan yang indah. ❤️");
+                showModal("Eits, Sayang...", "Fokus ke hari ini dulu ya! Besok bakal ada kejutan lainnya kok. ❤️");
                 return;
             }
-            const key = `check-${dayName}-${idx}`;
+            const key = `check-v3-${day}-${i}`;
             const state = localStorage.getItem(key) === 'true';
             localStorage.setItem(key, !state);
             renderAllDays();
@@ -565,26 +605,84 @@
             const input = document.getElementById('new-task-input');
             const val = input.value.trim();
             if (todayIdx < 1 || todayIdx > 5) {
-                alert("Hari ini waktunya istirahat, jangan menambah beban pikiran ya sayang! 🥰");
+                showModal("Waktunya Rehat", "Ini kan hari libur, jangan nambah tugas dulu ya. Nikmatin harinya! 🥰");
                 return;
             }
             if (!val) return;
             const dayName = days[todayIdx];
-            let list = JSON.parse(localStorage.getItem(`list-${dayName}`)) || [...defaultRoutine];
+            let list = JSON.parse(localStorage.getItem(`list-v3-${dayName}`)) || [...defaultRoutine];
             list.push({ task: val });
-            localStorage.setItem(`list-${dayName}`, JSON.stringify(list));
+            localStorage.setItem(`list-v3-${dayName}`, JSON.stringify(list));
             input.value = '';
             renderAllDays();
         };
 
-        window.deleteTask = (dayName, idx) => {
-            let list = JSON.parse(localStorage.getItem(`list-${dayName}`)) || [...defaultRoutine];
-            localStorage.removeItem(`check-${dayName}-${idx}`);
-            list.splice(idx, 1);
-            localStorage.setItem(`list-${dayName}`, JSON.stringify(list));
+        window.deleteTask = (day, i) => {
+            let list = JSON.parse(localStorage.getItem(`list-v3-${day}`)) || [...defaultRoutine];
+            list.splice(i, 1);
+            localStorage.setItem(`list-v3-${day}`, JSON.stringify(list));
+            localStorage.removeItem(`check-v3-${day}-${i}`);
             renderAllDays();
         };
 
+        // --- UI HELPERS ---
+        function showModal(title, msg) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-msg').innerText = msg;
+            document.getElementById('custom-modal').style.display = 'flex';
+        }
+        window.closeModal = () => document.getElementById('custom-modal').style.display = 'none';
+
+        function startFlowerRain() {
+            const symbols = ['🌸', '❤️', '✨', '🌷', '🎀', '☁️'];
+            setInterval(() => {
+                const el = document.createElement('div');
+                el.className = 'falling-element';
+                el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                el.style.left = Math.random() * 100 + 'vw';
+                el.style.fontSize = (Math.random() * 15 + 15) + 'px';
+                el.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                el.style.opacity = Math.random() * 0.5;
+                document.body.appendChild(el);
+                setTimeout(() => el.remove(), 6000);
+            }, 800);
+        }
+
+        // --- CANVAS BACKGROUND ---
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let dots = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.onresize = resize;
+        resize();
+
+        for(let i=0; i<40; i++) {
+            dots.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                r: Math.random() * 4 + 1,
+                vx: Math.random() * 0.4 - 0.2,
+                vy: Math.random() * 0.4 - 0.2
+            });
+        }
+
+        function animateBg() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            dots.forEach(d => {
+                d.x += d.vx; d.y += d.vy;
+                if(d.x < 0 || d.x > canvas.width) d.vx *= -1;
+                if(d.y < 0 || d.y > canvas.height) d.vy *= -1;
+                ctx.beginPath();
+                ctx.arc(d.x, d.y, d.r, 0, Math.PI*2);
+                ctx.fillStyle = 'rgba(255, 182, 193, 0.3)';
+                ctx.fill();
+            });
+            requestAnimationFrame(animateBg);
+        }
     </script>
 </body>
 </html>
